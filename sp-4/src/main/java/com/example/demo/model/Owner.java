@@ -21,7 +21,7 @@ public class Owner {
 	private Integer ownerId;
 	private String ownerName;
 	
-	@Pattern(regexp = "[0-9]{10}",message = "invalid number")
+	@Pattern(regexp = "^[6789][0-9]{9}",message = "invalid number")
 	private String ownerMobile;
 	
 	@Size(min = 6,message = "password length should be 6")

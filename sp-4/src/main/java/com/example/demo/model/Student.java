@@ -28,12 +28,12 @@ public class Student {
 	private String name;
 	@NotNull
 	private String address;
-	@Pattern(regexp = "[0-9]{10}")
+	@Pattern(regexp = "^[6789][0-9]{9}")
 	private String mobile;
 	@Email
 	@Size(min=5)
 	private String staudentEmail;
-	@Size(min = 6,message = "password length should be 6")
+	
 	@NotNull(message = "null value not accepted")
 	private String password;
 	

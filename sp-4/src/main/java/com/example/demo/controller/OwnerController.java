@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,12 @@ public class OwnerController {
 	
 	@Autowired 
 	private OwnerService ownerService;
+	
+	@PostConstruct
+	public void AddOwner() {
+		Owner owner=new Owner();
+		
+	}
 
 	
 	@PostMapping("/owner")

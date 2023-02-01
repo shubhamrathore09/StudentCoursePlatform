@@ -20,7 +20,7 @@ import com.example.demo.service.StudentService;
 import java.util.*;
 
 @RestController
-
+@RequestMapping("/student")
 public class StudentController {
 	@Autowired
 	private StudentService studentService;
