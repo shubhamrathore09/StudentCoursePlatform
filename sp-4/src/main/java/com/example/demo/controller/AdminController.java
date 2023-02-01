@@ -27,7 +27,7 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
-	@PostMapping("/UpdateAdmin")
+	@PutMapping("/UpdateAdmin")
 	public ResponseEntity<Admin> updateAdmin(Admin admin,@RequestParam("key") String key)throws LoginException{
 		Admin admin2=adminService.updateAdmin(admin, key);
 		return new ResponseEntity<Admin>(admin2,HttpStatus.OK);

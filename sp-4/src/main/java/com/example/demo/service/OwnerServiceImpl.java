@@ -60,8 +60,8 @@ public class OwnerServiceImpl implements OwnerService{
 		if(admin2!=null) {
 			throw new AdminException("this number is already ragistor");
 		}
-		Admin admin3=adminDao.save(admin);
-		return admin3;
+		return adminDao.save(admin);
+		
 	}
 
 	@Override
