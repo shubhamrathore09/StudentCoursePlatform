@@ -13,6 +13,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.UniqueElements;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,5 +41,8 @@ public class Admin {
 	@Size(min = 6,message = "password length should be 6")
 	@NotNull(message = "null value not accepted")
 	private String password;
+	
+	@JsonIgnore
+	private String role;
 	
 }

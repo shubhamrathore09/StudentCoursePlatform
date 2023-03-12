@@ -12,8 +12,8 @@ import com.example.demo.model.CurrentLoginSession;
 import com.example.demo.model.PaidedStudent;
 
 public interface AdminService {
-	public Admin updateAdmin(Admin admin,String key)throws LoginException;
-	public Course createCourse(Course course,String key)throws LoginException,CourseException;
-	public Course UpdateCourse(Course course,String key)throws LoginException,CourseException;
-	public Set<PaidedStudent> studentByCourse(String courseName,String key)throws StudentException,LoginException;
+	public Admin updateAdmin(Admin admin)throws LoginException;
+	public Course createCourse(Course course)throws LoginException,CourseException;
+	public Course UpdateCourse(Course course)throws LoginException,CourseException;
+	public Set<PaidedStudent> studentByCourse(String courseName)throws StudentException,LoginException;
 }

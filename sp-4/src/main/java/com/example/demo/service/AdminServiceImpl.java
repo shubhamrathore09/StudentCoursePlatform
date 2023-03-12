@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.AdminDao;
@@ -32,26 +34,33 @@ public class AdminServiceImpl implements AdminService{
 	private CourseDao courseDao;
 
 	@Override
-	public Admin updateAdmin(Admin admin, String key) throws LoginException {
+	public Admin updateAdmin(Admin admin) throws LoginException {
 		
-		CurrentLoginSession currentLoginSession=currentSessionDao.findByUserkey(key);		
-		if(currentLoginSession!=null && currentLoginSession.getMobile().equals(admin.getAdminMobile())) {
-			return adminDao.save(admin);
+		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		
+		if(authentication!=null) {
+		return adminDao.save(admin);
 		}
+		
 		throw new LoginException("First you need to login");
 	}
 	
 
 	@Override
-	public Course createCourse(Course course, String key)throws LoginException,CourseException {
+	public Course createCourse(Course course)throws LoginException,CourseException {
 		
-		CurrentLoginSession currentLoginSession=currentSessionDao.findByUserkey(key);
+//		CurrentLoginSession currentLoginSession=currentSessionDao.findByUserkey(key);
 		
-		if(currentLoginSession==null) {
+		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		
+		
+		
+		if(authentication==null) {
 			throw new LoginException("you need to login first");
 		}
 		
 		Course course2=courseDao.findByCourseName(course.getCourseName());
+		
 		
 		if(course2!=null) {
 			throw new CourseException("That course is already exist");
@@ -62,25 +71,30 @@ public class AdminServiceImpl implements AdminService{
 
 
 	@Override
-	public Course UpdateCourse(Course course, String key) throws LoginException, CourseException {
+	public Course UpdateCourse(Course course) throws LoginException, CourseException {
 		
-		CurrentLoginSession currentLoginSession=currentSessionDao.findByUserkey(key);
-		if(currentLoginSession==null) {
-			throw new LoginException("Please login first");
+	Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		if(authentication==null) {
+			throw new LoginException("you need to login first");
 		}
+		Course course2=courseDao.findByCourseName(course.getCourseName());
+		if(course2==null) {
+			throw new CourseException("that course not available");
+		}
+		
 		return courseDao.save(course);
 		
 	}
 
 
 	@Override
-	public Set<PaidedStudent> studentByCourse(String courseName,String key) throws StudentException,LoginException {
+	public Set<PaidedStudent> studentByCourse(String courseName) throws StudentException,LoginException {
 		
-		CurrentLoginSession currentLoginSession=currentSessionDao.findByUserkey(key);
-		
-		if(currentLoginSession==null) {
-			throw new LoginException("your need to login first");
+	Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		if(authentication==null) {
+			throw new LoginException("you need to login first");
 		}
+		
 		
 		Set<PaidedStudent> set=courseDao.givenBycourseName(courseName);
 		

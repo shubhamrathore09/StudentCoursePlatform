@@ -3,6 +3,8 @@ package com.example.demo.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.AdminDao;
@@ -32,11 +34,12 @@ public class OwnerServiceImpl implements OwnerService{
 	}
 
 	@Override
-	public Owner updateOwner(Owner owner,String key)throws LoginException {
+	public Owner updateOwner(Owner owner)throws LoginException {
 		
-		CurrentLoginSession currenuser=currentSessionDao.findByUserkey(key);
-		if(currenuser==null) {
-			throw new LoginException("first you need to login");
+		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		
+		if(authentication==null) {
+			throw new LoginException("you have login");
 		}
 		
 		Optional<Owner> optional=ownerDao.findById(owner.getOwnerId());
@@ -49,11 +52,10 @@ public class OwnerServiceImpl implements OwnerService{
 	}
 
 	@Override
-	public Admin createAdmin(Admin admin,String key) throws LoginException,AdminException{
-		
-		CurrentLoginSession currenuser=currentSessionDao.findByUserkey(key);
-		if(currenuser==null) {
-			throw new LoginException("first you need to login");
+	public Admin createAdmin(Admin admin) throws LoginException,AdminException{
+      Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		if(authentication==null) {
+			throw new LoginException("you have login");
 		}
 		
 		Admin admin2=adminDao.findByadminMobile(admin.getAdminMobile());
@@ -65,13 +67,12 @@ public class OwnerServiceImpl implements OwnerService{
 	}
 
 	@Override
-	public String deleteAdmin(Integer aid,String key) throws AdminException ,LoginException{
+	public String deleteAdmin(Integer aid) throws AdminException ,LoginException{
 		
-		CurrentLoginSession currenuser=currentSessionDao.findByUserkey(key);
-		if(currenuser==null) {
-			throw new LoginException("first you need to login");
+		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		if(authentication==null) {
+			throw new LoginException("you have login");
 		}
-		
 		Optional<Admin> optional=adminDao.findById(aid);
 		if(optional.isEmpty()) {
 			throw new AdminException("no admin available by that id :"+aid);

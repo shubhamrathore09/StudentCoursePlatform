@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,7 @@ import com.example.demo.model.PaidedStudent;
 import com.example.demo.service.AdminService;
 
 @RestController
+@RequestMapping("/admin")
 public class AdminController {
 	
 	
@@ -28,26 +30,28 @@ public class AdminController {
 	private AdminService adminService;
 	
 	@PutMapping("/UpdateAdmin")
-	public ResponseEntity<Admin> updateAdmin(Admin admin,@RequestParam("key") String key)throws LoginException{
-		Admin admin2=adminService.updateAdmin(admin, key);
+	public ResponseEntity<Admin> updateAdmin(Admin admin)throws LoginException{
+		
+		Admin admin2=adminService.updateAdmin(admin);
 		return new ResponseEntity<Admin>(admin2,HttpStatus.OK);
 	}
 	
 	@PostMapping("/createCourse")
-	public ResponseEntity<Course> createNewCourse(@RequestBody Course course,@RequestParam("key") String key)throws LoginException,CourseException{
-		Course course2=adminService.createCourse(course, key);
+	public ResponseEntity<Course> createNewCourse(@RequestBody Course course)throws LoginException,CourseException{
+		
+		Course course2=adminService.createCourse(course);
 		return new ResponseEntity<Course>(course2,HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/updateCourse")
-	public ResponseEntity<Course>updateCourse(@RequestBody Course course, @RequestParam("key")String key)throws LoginException,CourseException{
-		Course course2=adminService.UpdateCourse(course, key);
+	public ResponseEntity<Course>updateCourse(@RequestBody Course course)throws LoginException,CourseException{
+		Course course2=adminService.UpdateCourse(course);
 		return new ResponseEntity<Course>(course2,HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/getstudent")
-	public ResponseEntity<Set<PaidedStudent>> getCourseBy(@RequestParam("courseName")String name,@RequestParam("key")String key)throws StudentException,LoginException{
-		Set<PaidedStudent> set=adminService.studentByCourse(name, key);
+	public ResponseEntity<Set<PaidedStudent>> getCourseBy(@RequestParam("courseName")String name)throws StudentException,LoginException{
+		Set<PaidedStudent> set=adminService.studentByCourse(name);
 		return new ResponseEntity<Set<PaidedStudent>>(set,HttpStatus.OK);
 	}
 	

@@ -9,7 +9,7 @@ import java.util.*;
 
 public interface StudentService {
 	public String Ragistration(Student student)throws StudentException;
-	public String ChangePassword(String key,String oldpassword,String newPassword)throws StudentException;
+	public String ChangePassword(String oldpassword,String newPassword)throws StudentException;
 	public List<Course> ShowAvailbleCourse()throws CourseException;
-	public String EnrolledInCourse(String courseName,String key)throws StudentException,CourseException;
+	public String EnrolledInCourse(String courseName)throws StudentException,CourseException;
 }

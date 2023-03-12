@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.CourseDao;
@@ -22,6 +25,8 @@ import com.example.demo.model.Student;
 
 @Service
 public class StudentServiceImpl implements StudentService{
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	@Autowired
 	private StudentDao studentDao;
@@ -49,23 +54,20 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 	@Override
-	public String ChangePassword(String key,String oldpassword,String newPassword) throws StudentException {
+	public String ChangePassword(String oldpassword,String newPassword) throws StudentException {
 		
-	CurrentLoginSession currentLoginSession=currentSessionDao.findByUserkey(key);
-	
-	if(currentLoginSession==null) {
-		throw new StudentException("your are not login");
-	}
-	
-	Student student=studentDao.findByMobile(currentLoginSession.getMobile());
-
-	if(student.getPassword().equals(oldpassword)) {
-		student.setPassword(newPassword);
-		studentDao.save(student);
-		return "Password successfully changed";
-	}
-
+		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		Student student=studentDao.findByMobile(authentication.getName());
+		
+		if(encoder.matches(oldpassword, student.getPassword())) {
+			student.setPassword(encoder.encode(newPassword));
+			studentDao.save(student);
+			return "password save succesfully";
+		}
+		
 		return "Your old password is incurrect";
+		
+		 
 		
 	}
 	@Override
@@ -76,16 +78,13 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 	@Override
-	public String EnrolledInCourse(String courseName, String key)throws StudentException,CourseException {
-		
-		CurrentLoginSession currentLoginSession=currentSessionDao.findByUserkey(key);
-		
-		if(currentLoginSession==null) {
-			throw new StudentException("you need to login");
-		}
+	public String EnrolledInCourse(String courseName)throws StudentException,CourseException {
 		
 		
-		Student student=studentDao.findByMobile(currentLoginSession.getMobile());
+		
+		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		
+		Student student=studentDao.findByMobile(authentication.getName());
 		
 		Course course=courseDao.findByCourseName(courseName);
 		
@@ -95,12 +94,11 @@ public class StudentServiceImpl implements StudentService{
 			paidedStudent1.getCourseSet().add(course);
 			course.getStudentset().add(paidedStudent1);
 			paidStudentDao.save(paidedStudent1);
-			return "Done";
+			return "you have succefully enrrolled in course";
 		}
 		
 		
 		PaidedStudent paidedStudent=new PaidedStudent();
-		
 		paidedStudent.setAddress(student.getAddress());
 		paidedStudent.setMobile(student.getMobile());
 		paidedStudent.setName(student.getName());
