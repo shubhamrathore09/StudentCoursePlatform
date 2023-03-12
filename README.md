@@ -6,12 +6,17 @@ This project develop by me
 ## Tech Stack and Tools
 - Java
 - Spring Boot Framework
+- Spring Security
+- JWT Token
+- Validation
 - Spring MVC
 - Spring Data JPA
 - Hibernate
 - MySQL
-- Swagger
 - Lombok
+
+##Input Data
+You can see table information from studentCoursePlatefromTableDetails.txt and give data like that and you can also change their values
 
 
 ## Modules
@@ -21,6 +26,7 @@ This project develop by me
 - PlaidStudent Module
 - Course Module
 - Owner Module
+
 
 ## Features
 Admin Features:
@@ -47,7 +53,7 @@ Student Features:
 ## Installation & Run
 - To run this API server, you should update the database configuration inside the application.properties file which is present in the src/main/resources folder.
 - Update the port number, username and password as per your local database configuration.
-server.port=8888
+server.port=8880
 spring.datasource.url=jdbc:mysql://localhost:3306/ab2;
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 spring.datasource.username=enter_username
@@ -55,5 +61,5 @@ spring.datasource.password=enter_password
 ```
 ## API Root Endpoint
 ```
-https://localhost:8888/
+https://localhost:8880/
 ```
