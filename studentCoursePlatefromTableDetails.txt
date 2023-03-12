@@ -1,11 +1,4 @@
-Owner->
-{
-"ownerId":20000,
-"ownerName":"rahul",
-"ownerMobile":"8357888995",
-"ownerPassword":"123123"
-"role":"owner"
-}
+
 
 Admin->
 {
@@ -36,3 +29,4 @@ course->
 "expiry":2023-03-31,
 "duration":"3 Month"
 }
+
