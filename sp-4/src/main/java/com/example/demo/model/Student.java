@@ -38,6 +38,7 @@ public class Student {
 	
 	@NotNull(message = "null value not accepted")
 	private String password;
+	
 	@JsonIgnore
 	private String role;
 	

@@ -65,7 +65,7 @@ public class StudentServiceImpl implements StudentService{
 			return "password save succesfully";
 		}
 		
-		return "Your old password is incurrect";
+		throw new StudentException("wrong password");
 		
 		 
 		
