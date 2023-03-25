@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ import com.example.demo.service.OwnerService;
 
 @RestController
 @RequestMapping("owners")
+@CrossOrigin("*")
 public class OwnerController {
 	
 	@Autowired 
@@ -53,6 +55,7 @@ public class OwnerController {
 		Owner owner2=ownerService.updateOwner(owner);
 		return new ResponseEntity<Owner>(owner2,HttpStatus.CREATED);
 	}
+	
 	
 	@PostMapping("/Admin")
 	public ResponseEntity<Admin> CreateAdmin(@Valid @RequestBody Admin admin)throws LoginException,AdminException{
